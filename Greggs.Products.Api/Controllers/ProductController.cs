@@ -19,14 +19,23 @@ public class ProductController : ControllerBase
 
     private IDataAccess<Product> DBui = new ProductAccess();  // Instantiate Interface for DataAccess
 
-    [HttpGet]
-    public Array Latest(int pageStart, int pageSize){ // GET pageStart and pageSize values
+    [HttpGet("/latest")]
+    public Array Latest(int? pageStart, int? pageSize){ // GET pageStart and pageSize values
 
-        List<Product> products =  DBui.List(pageStart,pageSize).ToList(); // Query *DB* for list of products
+        Array products =  DBui.List(pageStart, pageSize).ToList().ToArray(); // Query *DB* for list of products
 
-        return products.ToArray(); // Return latest products
+        return products; // Return latest products
     }
 
+    [HttpGet("/euro")]
+    public Array EuroConversion(int? pageStart, int? pageSize){ // GET pageStart and pageSize values
+
+        double euroExchangeRate = 1.11;
+
+        Array products =  DBui.List(pageStart, pageSize).ToList().ToArray(); // Query *DB* for list of products
+
+        return products; // Return latest products
+    }
     
     /*
     private static readonly string[] Products = new[]
