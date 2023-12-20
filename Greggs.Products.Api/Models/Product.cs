@@ -4,4 +4,9 @@ public class Product
 {
     public string Name { get; set; }
     public decimal PriceInPounds { get; set; }
+
+    public Product Clone()
+    {
+        return new Product {Name = this.Name, PriceInPounds = this.PriceInPounds};
+    }
 }
