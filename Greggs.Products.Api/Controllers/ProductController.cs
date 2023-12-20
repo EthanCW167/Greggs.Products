@@ -17,7 +17,8 @@ namespace Greggs.Products.Api.Controllers;
 public class ProductController : ControllerBase
 {
 
-    private IDataAccess<Product> DBui = new ProductAccess();  // Instantiate Interface for DataAccess
+    private readonly IDataAccess<Product> DBui = new ProductAccess();  // Instantiate Interface for DataAccess
+
 
     [HttpGet("/latest")]
     public Array Latest(int? pageStart, int? pageSize){ // GET pageStart and pageSize values
@@ -27,16 +28,37 @@ public class ProductController : ControllerBase
         return products; // Return latest products
     }
 
+
     [HttpGet("/euro")]
     public Array EuroConversion(int? pageStart, int? pageSize){ // GET pageStart and pageSize values
 
-        double euroExchangeRate = 1.11;
+        decimal euroExchangeRate = 1.11m;
 
-        Array products =  DBui.List(pageStart, pageSize).ToList().ToArray(); // Query *DB* for list of products
+        List<Product> products = DBui.List(pageStart, pageSize).ToList(); // Query *DB* for list of products
 
-        return products; // Return latest products
+        List<Product> euroArray = new List<Product>();
+
+        for (int i=0; i<products.Count; i++) // Iterate through list
+        {
+            euroArray.Add(products[i].Clone()); // Clone Product object to euroArray
+            euroArray[i].PriceInPounds *= euroExchangeRate;  // Perform conversion from GBP to EUR
+            
+        }
+        return euroArray.ToArray(); // Return latest products
     }
-    
+
+}
+
+        /* Potential improvements:
+
+        1. Product price in pounds no longer applies when converting to Euro, could map the object to another with price in Euros.
+        2. Sort by name or sort by price
+
+        */
+
+   
+
+
     /*
     private static readonly string[] Products = new[]
     {
@@ -65,4 +87,3 @@ public class ProductController : ControllerBase
             .ToArray();
     }
     */
-}
