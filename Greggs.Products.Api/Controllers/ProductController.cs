@@ -11,6 +11,11 @@ namespace Greggs.Products.Api.Controllers;
 [Route("[controller]")]
 public class ProductController : ControllerBase
 {
+
+
+
+    
+    /*
     private static readonly string[] Products = new[]
     {
         "Sausage Roll", "Vegan Sausage Roll", "Steak Bake", "Yum Yum", "Pink Jammie"
@@ -37,4 +42,5 @@ public class ProductController : ControllerBase
             })
             .ToArray();
     }
+    */
 }
