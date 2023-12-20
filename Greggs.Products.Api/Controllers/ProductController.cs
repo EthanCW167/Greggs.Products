@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
+using Greggs.Products.Api.DataAccess;
 using Greggs.Products.Api.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.WebEncoders.Testing;
 
 namespace Greggs.Products.Api.Controllers;
 
@@ -12,7 +17,15 @@ namespace Greggs.Products.Api.Controllers;
 public class ProductController : ControllerBase
 {
 
+    private IDataAccess<Product> DBui = new ProductAccess();  // Instantiate Interface for DataAccess
 
+    [HttpGet]
+    public Array Latest(int pageStart, int pageSize){ // GET pageStart and pageSize values
+
+        List<Product> products =  DBui.List(pageStart,pageSize).ToList(); // Query *DB* for list of products
+
+        return products.ToArray(); // Return latest products
+    }
 
     
     /*
