@@ -53,6 +53,7 @@ public class ProductController : ControllerBase
 
         1. Product price in pounds no longer applies when converting to Euro, could map the object to another with price in Euros.
         2. Sort by name or sort by price
+        3. Search by name for specific product
 
         */
 
